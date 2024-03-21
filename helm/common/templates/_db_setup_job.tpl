@@ -62,7 +62,7 @@ spec:
             {{- else if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" .Chart.Name) }}
                 key: password
                 optional: false
             {{- else }}
@@ -72,7 +72,7 @@ spec:
             {{- if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" .Chart.Name) }}
                 key: username
                 optional: false
             {{- else }}
@@ -82,7 +82,7 @@ spec:
             {{- if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" .Chart.Name) }}
                 key: port
                 optional: false
             {{- else }}
@@ -94,7 +94,7 @@ spec:
             {{- else if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" .Chart.Name) }}
                 key: host
                 optional: false
             {{- else }}
