@@ -59,30 +59,30 @@ spec:
                 name: {{ .Release.Name }}-postgresql
                 key: postgres-password
                 optional: false
-            {{- else if or .Values.externalSecrets.dbcreds $.Values.global.postgres.externalSecret  }}
+            {{- else if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.externalSecrets.dbcreds | default $.Values.global.postgres.externalSecret }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
                 key: password
                 optional: false
             {{- else }}
             value:  {{ .Values.global.postgres.master.password | quote}}
             {{- end }}
           - name: PGUSER
-            {{- if or .Values.externalSecrets.dbcreds $.Values.global.postgres.externalSecret  }}
+            {{- if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.externalSecrets.dbcreds | default $.Values.global.postgres.externalSecret }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
                 key: username
                 optional: false
             {{- else }}
             value: {{ .Values.global.postgres.master.username | quote }}
             {{- end }}
           - name: PGPORT
-            {{- if or .Values.externalSecrets.dbcreds $.Values.global.postgres.externalSecret  }}
+            {{- if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.externalSecrets.dbcreds | default $.Values.global.postgres.externalSecret }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
                 key: port
                 optional: false
             {{- else }}
@@ -91,10 +91,10 @@ spec:
           - name: PGHOST
             {{- if $.Values.global.dev }}
             value: "{{ .Release.Name }}-postgresql"
-            {{- else if or .Values.externalSecrets.dbcreds $.Values.global.postgres.externalSecret  }}
+            {{- else if $.Values.global.externalSecrets.deploy }}
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.externalSecrets.dbcreds | default $.Values.global.postgres.externalSecret }}
+                name: {{ $.Values.global.postgres.externalSecret | default (printf "%s-dbcreds" $.Chart.Name) }}
                 key: host
                 optional: false
             {{- else }}
